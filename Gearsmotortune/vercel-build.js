@@ -15,5 +15,10 @@ if (!html.includes('whatsapp-enquiry.js')) {
   html = html.replace('</body>', '  <script src="/whatsapp-enquiry.js" defer></script>\n</body>');
 }
 
+// Load the WebGL scroll-driven engine sequence exactly once.
+if (!html.includes('engine-scroll.js')) {
+  html = html.replace('</body>', '  <script src="/engine-scroll.js" defer></script>\n</body>');
+}
+
 fs.writeFileSync(indexPath, html, 'utf8');
-console.log('Gearsmotortune: standalone WhatsApp enquiry handler injected.');
+console.log('Gearsmotortune: standalone WhatsApp enquiry + WebGL engine sequence injected.');
