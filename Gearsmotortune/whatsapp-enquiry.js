@@ -55,25 +55,25 @@
       .gmt-loader-track { height:3px; background:rgba(255,255,255,.12); overflow:hidden; }
       .gmt-loader-bar { height:100%; width:0; background:#ff6b00; box-shadow:0 0 18px rgba(255,107,0,.7); transition:width .15s ease; }
       .gmt-loader-percent { color:#88929b; font-size:11px; letter-spacing:1px; margin-top:10px; }
-      .hero {
+      .gmt-webgl-ready .hero {
         min-height:400vh !important;
         align-items:flex-start !important;
         background:transparent !important;
         background-image:none !important;
       }
-      .hero-content {
+      .gmt-webgl-ready .hero-content {
         position:sticky !important; top:0 !important;
         min-height:100vh; padding-top:110px !important;
         display:flex; flex-direction:column; justify-content:center;
         z-index:3 !important;
       }
-      .grid-bg { background-color:rgba(7,8,9,.78) !important; }
-      main, section, footer { position:relative; z-index:1; }
-      header { z-index:1000 !important; }
-      .hero:after { z-index:1; }
+      .gmt-webgl-ready .grid-bg { background-color:rgba(7,8,9,.78) !important; }
+      .gmt-webgl-ready main, .gmt-webgl-ready section, .gmt-webgl-ready footer { position:relative; z-index:1; }
+      .gmt-webgl-ready header { z-index:1000 !important; }
+      .gmt-webgl-ready .hero:after { z-index:1; }
       @media (max-width:700px) {
-        .hero { min-height:300vh !important; }
-        .hero-content { padding-top:95px !important; }
+        .gmt-webgl-ready .hero { min-height:300vh !important; }
+        .gmt-webgl-ready .hero-content { padding-top:95px !important; }
       }
       @media (prefers-reduced-motion: reduce) {
         #gmt-engine-canvas { opacity:.45; }
@@ -230,10 +230,12 @@
 
     const validTextures = textures.filter(Boolean);
     if (!validTextures.length) {
+      canvas.remove();
       finishLoader();
       return;
     }
 
+    document.body.classList.add('gmt-webgl-ready');
     material.uniforms.uTexture.value = validTextures[0];
     finishLoader();
 
