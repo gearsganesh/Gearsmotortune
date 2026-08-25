@@ -1,5 +1,6 @@
 (() => {
   const WHATSAPP_NUMBER = '918072432675';
+  const FORM_ID = 'automotiveEnquiryForm';
 
   function prettyLabel(name) {
     return String(name || '')
@@ -13,13 +14,13 @@
     if (!status) return;
     status.textContent = message;
     status.className = `form-status ${isError ? 'error' : 'success'}`;
+    status.style.display = 'block';
   }
 
   document.addEventListener('submit', event => {
     const form = event.target;
-    if (!(form instanceof HTMLFormElement) || form.id !== 'enquiryForm') return;
+    if (!(form instanceof HTMLFormElement) || form.id !== FORM_ID) return;
 
-    // Stop the old Netlify form handler from running. The site is now standalone.
     event.preventDefault();
     event.stopImmediatePropagation();
 
@@ -41,8 +42,6 @@
     showStatus(form, 'WhatsApp is opening with your enquiry ready to send.');
 
     const popup = window.open(url, '_blank', 'noopener,noreferrer');
-    if (!popup) {
-      window.location.href = url;
-    }
+    if (!popup) window.location.href = url;
   }, true);
 })();
