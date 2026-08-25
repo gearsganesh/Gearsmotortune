@@ -1,1 +1,0 @@
-window.GMT_ENGINE_FRAMES=[];
