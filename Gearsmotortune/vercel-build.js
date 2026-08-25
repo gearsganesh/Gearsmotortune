@@ -9,8 +9,6 @@ async function main() {
   if (!response.ok) throw new Error(`Could not restore archive index: ${response.status}`);
   let html = await response.text();
 
-  // Vercel is independent of Netlify Forms. The standalone WhatsApp handler
-  // receives the enquiry instead.
   html = html.replace('data-netlify="true"', '');
   html = html.replace('netlify-honeypot="bot-field"', '');
   html = html.replace('action="/"', '');
@@ -20,46 +18,28 @@ async function main() {
     html = html.replace('</body>', '  <script src="/whatsapp-enquiry.js" defer></script>\n</body>');
   }
 
-  if (!html.includes('varadaraja-cinematic-background.js')) {
-    const imports = `
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js",
-      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/"
-    }
-  }
-  </script>
-  <style id="gmt-cinematic-layer">
-    /* The original page layout stays untouched. Only its hero background is replaced. */
-    .hero { background: #070809 !important; background-image: none !important; }
-    .hero > .container, .hero > .scroll-cue { position: relative; z-index: 2; }
+  // Use the actual global cinematic-wave background from the Varadaraja
+  // Cinemas repository, installed locally in Gearsmotortune. It is a
+  // standalone fixed canvas, so there is no hero-specific WebGL layout.
+  if (!html.includes('global-cinematic-wave.js')) {
+    const cinematicStyles = `
+  <style id="gmt-global-cinematic-layer">
+    body { background:#070809 !important; }
+    body > *:not(#gearsmotortune-cinematic-wave-canvas) { position:relative; z-index:2; }
+    header { z-index:1000 !important; }
+    .hero { background:#070809 !important; background-image:none !important; }
     .hero:before, .hero:after { pointer-events:none; }
   </style>
 `;
     const loader = `
-  <script type="module">
-    import { createCinematicBackground } from './varadaraja-cinematic-background.js';
-    const hero = document.querySelector('.hero');
-    if (hero) {
-      createCinematicBackground(hero, {
-        particleCount: 520,
-        maxPixelRatio: 1.35,
-        bloomStrength: 0.34,
-        bloomRadius: 0.52,
-        bloomThreshold: 0.82,
-        reelOpacity: 0.28,
-        filmOpacity: 0.085
-      });
-    }
-  </script>
+  <script src="/global-cinematic-wave.js"></script>
 `;
-    html = html.replace('</head>', `${imports}</head>`);
+    html = html.replace('</head>', `${cinematicStyles}</head>`);
     html = html.replace('</body>', `${loader}</body>`);
   }
 
   fs.writeFileSync(indexPath, html, 'utf8');
-  console.log('Gearsmotortune: restored supplied archive and replaced only the hero background with the Varadaraja-style cinematic layer.');
+  console.log('Gearsmotortune: restored supplied archive and installed the Varadaraja global cinematic-wave background with Gearsmotortune orange palette.');
 }
 
 main().catch(error => {
