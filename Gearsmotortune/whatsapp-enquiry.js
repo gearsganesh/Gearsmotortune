@@ -1,10 +1,13 @@
 (() => {
   const WHATSAPP_NUMBER = '918072432675';
-  const FRAME_COUNT = 120;
+
+  // Full-quality source frames supplied by the client.
+  // 20 x 1920x1080 PNG frames. No WebP/JPEG recompression.
+  const FRAME_COUNT = 20;
   const FRAME_BASE = '/engine-frames/frame_';
-  const FRAME_EXT = '.webp';
-  const FRAME_WIDTH = 720;
-  const FRAME_HEIGHT = 405;
+  const FRAME_EXT = '.png';
+  const FRAME_WIDTH = 1920;
+  const FRAME_HEIGHT = 1080;
 
   function prettyLabel(name) {
     return String(name || '')
@@ -76,7 +79,7 @@
         .gmt-webgl-ready .hero-content { padding-top:95px !important; }
       }
       @media (prefers-reduced-motion: reduce) {
-        #gmt-engine-canvas { opacity:.45; }
+        #gmt-engine-canvas { opacity:.55; }
       }
     `;
     document.head.appendChild(style);
@@ -142,11 +145,12 @@
       alpha: false,
       powerPreference: 'high-performance'
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(window.innerWidth, window.innerHeight, false);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, .1, 10);
     camera.position.z = 1;
 
@@ -155,8 +159,7 @@
       uniforms: {
         uTexture: { value: null },
         uTextureSize: { value: new THREE.Vector2(FRAME_WIDTH, FRAME_HEIGHT) },
-        uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-        uOpacity: { value: 1.0 }
+        uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
       },
       vertexShader: `
         varying vec2 vUv;
@@ -170,25 +173,16 @@
         uniform sampler2D uTexture;
         uniform vec2 uTextureSize;
         uniform vec2 uResolution;
-        uniform float uOpacity;
         varying vec2 vUv;
 
         void main() {
+          // Exact cover crop. No artificial contrast, sharpening or darkening.
           vec2 scale = uResolution / uTextureSize;
           float coverScale = max(scale.x, scale.y);
           vec2 scaled = uTextureSize * coverScale;
           vec2 offset = (scaled - uResolution) / (2.0 * scaled);
           vec2 uv = vUv * (uResolution / scaled) + offset;
-
-          vec4 tex = texture2D(uTexture, uv);
-          float lum = dot(tex.rgb, vec3(.2126, .7152, .0722));
-          float keep = smoothstep(.025, .17, lum);
-          vec3 chrome = mix(vec3(0.0), tex.rgb * 1.08, keep);
-
-          float edge = smoothstep(1.12, .25, length(vUv - .5) * 1.25);
-          chrome *= mix(.58, 1.0, edge);
-
-          gl_FragColor = vec4(chrome, uOpacity);
+          gl_FragColor = texture2D(uTexture, uv);
         }
       `
     });
@@ -196,7 +190,6 @@
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    const images = new Array(FRAME_COUNT);
     const textures = new Array(FRAME_COUNT);
     let loaded = 0;
 
@@ -204,7 +197,6 @@
       const img = new Image();
       img.decoding = 'async';
       img.onload = () => {
-        images[index] = img;
         const texture = new THREE.Texture(img);
         texture.colorSpace = THREE.SRGBColorSpace;
         texture.minFilter = THREE.LinearFilter;
@@ -221,11 +213,17 @@
         updateLoader(loaded, FRAME_COUNT);
         resolve(false);
       };
-      img.src = `${FRAME_BASE}${String(index + 1).padStart(4, '0')}${FRAME_EXT}`;
+      img.src = `${FRAME_BASE}${String(index + 1).padStart(3, '0')}${FRAME_EXT}`;
     });
 
-    for (let start = 0; start < FRAME_COUNT; start += 8) {
-      await Promise.all(Array.from({length: Math.min(8, FRAME_COUNT - start)}, (_, k) => loadFrame(start + k)));
+    // Load the supplied 1920x1080 PNGs in small batches to avoid connection/memory spikes.
+    for (let start = 0; start < FRAME_COUNT; start += 4) {
+      await Promise.all(
+        Array.from(
+          { length: Math.min(4, FRAME_COUNT - start) },
+          (_, k) => loadFrame(start + k)
+        )
+      );
     }
 
     const validTextures = textures.filter(Boolean);
@@ -278,7 +276,7 @@
     gsap.ticker.add(tick);
 
     function resize() {
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setSize(window.innerWidth, window.innerHeight, false);
       material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
     }
