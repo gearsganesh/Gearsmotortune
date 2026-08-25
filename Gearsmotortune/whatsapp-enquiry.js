@@ -28,7 +28,7 @@
       /* Hide the older duplicate WhatsApp control. */
       .gmt-whatsapp { display: none !important; }
 
-      /* Sound control: fixed above WhatsApp. */
+      /* Sound control: fixed directly above WhatsApp. */
       .gmt-sound-wrap {
         position: fixed !important;
         right: 24px !important;
@@ -57,11 +57,25 @@
       @media (max-width: 600px) {
         .gmt-sound-wrap {
           right: 16px !important;
-          bottom: 86px !important;
+          bottom: 80px !important;
+          width: 54px !important;
+          height: 54px !important;
+        }
+        .gmt-sound-btn {
+          width: 54px !important;
+          height: 54px !important;
+          font-size: 21px !important;
+        }
+        .gmt-sound-panel {
+          right: 0 !important;
+          bottom: 64px !important;
+          width: min(300px, calc(100vw - 32px)) !important;
         }
         .gmt-floating-whatsapp {
           right: 16px !important;
           bottom: 16px !important;
+          width: 54px !important;
+          height: 54px !important;
         }
       }
     `;
