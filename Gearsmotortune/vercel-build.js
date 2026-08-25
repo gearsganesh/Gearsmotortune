@@ -117,6 +117,55 @@ async function main() {
     header { z-index:1000 !important; }
     .hero { background:#070809 !important; background-image:none !important; }
     .hero:before, .hero:after { pointer-events:none; }
+
+    /* Mobile-only correction. Desktop layout remains untouched. */
+    @media (max-width:600px) {
+      .hero-scroll { height:125vh !important; min-height:0 !important; }
+      .hero-stage, .hero { min-height:100svh !important; height:100svh !important; }
+      .hero-stage { align-items:flex-start !important; }
+      .hero-stage .hero-content {
+        width:100% !important;
+        max-width:none !important;
+        padding-top:145px !important;
+        padding-bottom:30px !important;
+      }
+      .hero-stage .eyebrow {
+        font-size:11px !important;
+        letter-spacing:1.25px !important;
+        padding:8px 12px !important;
+        white-space:nowrap !important;
+      }
+      .hero-stage h1 {
+        font-size:clamp(48px,14vw,62px) !important;
+        line-height:.86 !important;
+        letter-spacing:-1.4px !important;
+        margin:22px 0 20px !important;
+      }
+      .hero-stage p {
+        font-size:14px !important;
+        line-height:1.65 !important;
+        max-width:100% !important;
+      }
+      .hero-stage .hero-actions {
+        gap:10px !important;
+        margin-top:24px !important;
+      }
+      .hero-stage .hero-actions .btn {
+        min-height:50px !important;
+        padding:12px 16px !important;
+        font-size:14px !important;
+      }
+
+      /* Let the global cinematic wave fill the mobile hero instead of hiding it behind an opaque layer. */
+      .hero-stage,
+      .hero-stage.hero {
+        background:rgba(7,8,9,.18) !important;
+        background-image:none !important;
+      }
+      .hero-stage:after {
+        opacity:.42 !important;
+      }
+    }
   </style>
 `;
     const loader = `
