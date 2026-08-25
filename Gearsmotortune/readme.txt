@@ -77,4 +77,3 @@ V8.1 changes:
 - Replaced the incorrect floating WhatsApp appearance with a proper green WhatsApp icon/button.
 - WhatsApp button opens a chat to +91 8072432675.
 - Sound button is positioned separately above WhatsApp so the controls do not overlap.
-
