@@ -4,6 +4,19 @@
  * Palette adapted from Varadaraja GOLD to Gearsmotortune orange/amber.
  */
 (function () {
+  function addDevelopmentAppsLink() {
+    if (document.querySelector('a[data-gears-development-apps]')) return;
+    const navLinks = document.querySelector('.nav-links');
+    if (!navLinks) return;
+    const link = document.createElement('a');
+    link.href = '/development.html';
+    link.textContent = 'Development Apps';
+    link.setAttribute('data-gears-development-apps', 'true');
+    navLinks.appendChild(link);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addDevelopmentAppsLink);
+  else addDevelopmentAppsLink();
+
   if (document.getElementById("gearsmotortune-cinematic-wave-canvas")) return;
 
   const canvas = document.createElement("canvas");
