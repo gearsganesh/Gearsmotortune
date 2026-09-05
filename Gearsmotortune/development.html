@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070809">
+  <meta name="description" content="GEARS Motortune Development Apps and digital tools.">
+  <title>Development Apps | GEARS Motortune</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--orange:#ff6b00;--orange2:#ff8a1f;--black:#070809;--panel:#111518;--text:#f5f5f5;--muted:#9ca7b2;--line:rgba(255,255,255,.09);--max:1180px}
+    *{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth} body{font-family:Inter,Arial,sans-serif;color:var(--text);background:var(--black);line-height:1.6;min-height:100vh} a{color:inherit;text-decoration:none}.container{width:min(var(--max),92%);margin:auto}
+    header{position:sticky;top:0;z-index:10;background:rgba(5,6,7,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between}.logo{width:210px;height:58px;object-fit:contain;object-position:left center}.back{color:#aeb7c0;font-size:14px;font-weight:700}.back:hover{color:#fff}
+    main{padding:110px 0 120px;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:55px 55px}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--orange);font-size:13px;font-weight:800;letter-spacing:1.7px;text-transform:uppercase;border:1px solid rgba(255,107,0,.35);background:rgba(255,107,0,.06);border-radius:999px;padding:8px 14px}.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 12px var(--orange)}
+    h1{font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;font-size:clamp(62px,9vw,112px);line-height:.82;letter-spacing:-2px;margin:24px 0 18px}h1 span{color:var(--orange)}.intro{color:var(--muted);font-size:17px;max-width:700px}
+    .apps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:55px}.app{background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));border:1px solid var(--line);padding:30px;min-height:300px;position:relative;overflow:hidden;display:flex;flex-direction:column}.app:before{content:"";position:absolute;top:0;left:0;width:70px;height:3px;background:var(--orange)}.app:hover{border-color:rgba(255,107,0,.42);transform:translateY(-4px);transition:.2s}.icon{width:58px;height:58px;border:1px solid rgba(255,107,0,.35);display:grid;place-items:center;color:var(--orange);font:800 25px "Barlow Condensed";margin-bottom:25px}.status{display:inline-block;align-self:flex-start;font-size:10px;letter-spacing:1.3px;text-transform:uppercase;font-weight:800;color:var(--orange);border:1px solid rgba(255,107,0,.3);padding:5px 9px;margin-bottom:12px}.app h2{font:800 34px/1 "Barlow Condensed";text-transform:uppercase;margin-bottom:10px}.app p{color:var(--muted);font-size:13px;max-width:330px}.launch{margin-top:auto;padding-top:25px;color:var(--orange);font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase}.launch:hover{color:#fff}.coming .icon{color:#777;border-color:var(--line)}.coming .status{color:#818a92;border-color:var(--line)}
+    footer{padding:35px 0;border-top:1px solid var(--line);color:#66717a;font-size:11px} @media(max-width:900px){.apps{grid-template-columns:1fr 1fr}} @media(max-width:600px){.nav{height:68px}.logo{width:170px}main{padding:75px 0}.apps{grid-template-columns:1fr}h1{font-size:64px}}
+  </style>
+</head>
+<body>
+  <header><div class="container nav"><a href="/"><img class="logo" src="/gearsmotortune-logo.png" alt="GEARS Motortune"></a><a class="back" href="/">← Back to GEARS Motortune</a></div></header>
+  <main><div class="container">
+    <span class="eyebrow">GEARS Digital Lab</span>
+    <h1>Development <span>Apps</span></h1>
+    <p class="intro">Experimental tools, internal products and upcoming digital solutions being developed by GEARS Motortune.</p>
+    <section class="apps" aria-label="Development applications">
+      <article class="app"><div class="icon">GS</div><span class="status">Live</span><h2>GEARS Snapro</h2><p>A browser-based professional photo editing workspace for fast image adjustments, color control, cropping and export.</p><a class="launch" href="https://snapro.gearsmotortune.com">Open Snapro →</a></article>
+      <article class="app coming"><div class="icon">02</div><span class="status">In Development</span><h2>Automotive Tools</h2><p>Upcoming calculators, diagnostic utilities and workshop-focused digital tools for the GEARS ecosystem.</p><span class="launch">Coming Soon</span></article>
+      <article class="app coming"><div class="icon">03</div><span class="status">In Development</span><h2>Digital Products</h2><p>New technology experiments and customer utilities will appear here as they move from prototype to release.</p><span class="launch">Coming Soon</span></article>
+    </section>
+  </div></main>
+  <footer><div class="container">© GEARS Motortune · Development Apps</div></footer>
+</body>
+</html>
